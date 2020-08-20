@@ -3,8 +3,9 @@ import {
   ADD_LIST_VALUE,
   INIT_LIST,
   DELETE_ITEM,
+  GET_INIT_LIST,
 } from './actionType'
-import { service } from '../axios/index'
+// import { service } from '../axios/index'
 
 export const changeInputValueAction = (value) => ({
   type: CAHNGE_INPUT_VALUE,
@@ -25,17 +26,21 @@ export const deleteItemAction = (index) => ({
   index,
 })
 
-export const getToDoList = () => {
-  return (dispatch) => {
-    service({
-      method: 'get',
-      url: '/api/todolist',
-    })
-      .then((res) => {
-        dispatch(initListAction(res.data))
-      })
-      .catch((err) => {
-        alert(err)
-      })
-  }
-}
+export const getInitListAction = () => ({
+  type: GET_INIT_LIST,
+})
+
+// export const getToDoList = () => {
+//   return (dispatch) => {
+//     service({
+//       method: 'get',
+//       url: '/api/todolist',
+//     })
+//       .then((res) => {
+//         dispatch(initListAction(res.data))
+//       })
+//       .catch((err) => {
+//         alert(err)
+//       })
+//   }
+// }

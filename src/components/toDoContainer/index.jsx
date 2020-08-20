@@ -7,8 +7,10 @@ import {
   changeInputValueAction,
   addListItemAction,
   deleteItemAction,
-  getToDoList,
+  getInitListAction,
+  // getToDoList,
 } from '../../action/index'
+// import { service } from '../../axios/index'
 
 class ToDoContainer extends React.Component {
   constructor(props) {
@@ -20,7 +22,7 @@ class ToDoContainer extends React.Component {
   }
 
   componentDidMount() {
-    store.dispatch(getToDoList())
+    store.dispatch(getInitListAction())
   }
 
   handleInputValue = (e) => {
