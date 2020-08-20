@@ -2,13 +2,12 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 import ToDoInput from '../ToDoInput/index'
 import ToDoList from '../ToDoList/index'
-import { service } from '../../axios/index'
 import store from '../../store/index'
 import {
-  initListAction,
   changeInputValueAction,
   addListItemAction,
   deleteItemAction,
+  getToDoList,
 } from '../../action/index'
 
 class ToDoContainer extends React.Component {
@@ -21,16 +20,7 @@ class ToDoContainer extends React.Component {
   }
 
   componentDidMount() {
-    service({
-      method: 'get',
-      url: '/api/todolist',
-    })
-      .then((res) => {
-        store.dispatch(initListAction(res.data))
-      })
-      .catch((err) => {
-        alert(err)
-      })
+    store.dispatch(getToDoList())
   }
 
   handleInputValue = (e) => {

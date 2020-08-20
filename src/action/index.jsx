@@ -4,6 +4,7 @@ import {
   INIT_LIST,
   DELETE_ITEM,
 } from './actionType'
+import { service } from '../axios/index'
 
 export const changeInputValueAction = (value) => ({
   type: CAHNGE_INPUT_VALUE,
@@ -23,3 +24,18 @@ export const deleteItemAction = (index) => ({
   type: DELETE_ITEM,
   index,
 })
+
+export const getToDoList = () => {
+  return (dispatch) => {
+    service({
+      method: 'get',
+      url: '/api/todolist',
+    })
+      .then((res) => {
+        dispatch(initListAction(res.data))
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  }
+}

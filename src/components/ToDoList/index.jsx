@@ -11,7 +11,6 @@ const ToDoList = (props) => {
       dataSource={textList}
       renderItem={(item, index) => (
         <List.Item
-          index={index}
           style={{ cursor: 'pointer' }}
           onClick={() => {
             handleDeleteItem(index)
