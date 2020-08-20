@@ -1,58 +1,73 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import ToDoInput from '../ToDoInput/index'
 import ToDoList from '../ToDoList/index'
-import store from '../../store/index'
+import { connect } from 'react-redux'
 import {
-  changeInputValueAction,
-  addListItemAction,
-  deleteItemAction,
-  getInitListAction,
-  // getToDoList,
-} from '../../action/index'
-// import { service } from '../../axios/index'
+  CAHNGE_INPUT_VALUE,
+  ADD_LIST_VALUE,
+  DELETE_ITEM,
+  GET_INIT_LIST,
+} from '../../action/actionType'
 
 class ToDoContainer extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = store.getState()
-    store.subscribe(() => {
-      this.setState(store.getState())
-    })
-  }
-
   componentDidMount() {
-    store.dispatch(getInitListAction())
-  }
-
-  handleInputValue = (e) => {
-    store.dispatch(changeInputValueAction(e.target.value))
-  }
-
-  handleOnclick = () => {
-    store.dispatch(addListItemAction())
-  }
-
-  handleDeleteItem = (index) => {
-    store.dispatch(deleteItemAction(index))
+    const { getInitList } = this.props
+    getInitList()
   }
 
   render() {
-    const { inputValue, textList } = this.state
+    const {
+      inputValue,
+      textList,
+      changeInputValue,
+      addListItem,
+      deleteItem,
+    } = this.props
     return (
       <div>
         <ToDoInput
-          handleInputValue={this.handleInputValue}
-          handleOnclick={this.handleOnclick}
+          handleInputValue={changeInputValue}
+          handleOnclick={addListItem}
           inputValue={inputValue}
         />
-        <ToDoList
-          handleDeleteItem={this.handleDeleteItem}
-          textList={textList}
-        />
+        <ToDoList handleDeleteItem={deleteItem} textList={textList} />
       </div>
     )
   }
 }
 
-export default ToDoContainer
+const mapStateToProps = (state) => {
+  return {
+    inputValue: state.inputValue,
+    textList: state.textList,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeInputValue(e) {
+      dispatch({
+        type: CAHNGE_INPUT_VALUE,
+        value: e.target.value,
+      })
+    },
+    addListItem() {
+      dispatch({
+        type: ADD_LIST_VALUE,
+      })
+    },
+    deleteItem(index) {
+      dispatch({
+        type: DELETE_ITEM,
+        index,
+      })
+    },
+    getInitList() {
+      dispatch({
+        type: GET_INIT_LIST,
+      })
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoContainer)
